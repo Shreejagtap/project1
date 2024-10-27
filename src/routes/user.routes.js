@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { registerUser } from "../controllers/userController.js";
-
 import { upload } from "../middlewares/multer.middleware.js";
+import { userExist } from "../middlewares/userExist.middleware.js";
 
 const router = Router();
 
@@ -16,6 +16,7 @@ router.route("/register").post(
       maxCount: 1,
     },
   ]),
+  userExist,
   registerUser
 );
 

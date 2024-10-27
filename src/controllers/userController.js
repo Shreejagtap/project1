@@ -16,25 +16,37 @@ const registerUser = asyncHandler(async (req, res) => {
   // check if user is created or not
   // return response
 
-  const { fullName, email, username, password } = req.body;
-  console.log("Email: ", email);
+  const { fullname, email, username, password } = req.body;
+  // console.log("Email: ", email);
 
   if (
-    [fullName, email, username, password].some((field) => field?.trim() === "")
+    [fullname, email, username, password].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All Fields are required");
   }
 
-  const existedUser = User.findOne({
-    $or: [{ username }, { email }],
-  });
+  //found an bug so i made an middleware for it which is userExist Middleware
+  // const existedUser = await User.findOne({
+  //   $or: [{ username }, { email }],
+  // });
 
-  if (existedUser) {
-    throw new ApiError(409, "User already exists");
-  }
+  // if (existedUser) {
+  //   throw new ApiError(409, "User already exists");
+  // }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  // console.log(avatarLocalPath);
+  // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+  let coverImageLocalPath;
+
+  if (
+    req.files &&
+    Array.isArray(req.files.coverImage) &&
+    req.files.coverImage.length > 0
+  ) {
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
 
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar is Required");
@@ -48,7 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    fullName,
+    fullname,
     avatar: avatar.url,
     coverImage: coverImage?.url || "",
     email,
