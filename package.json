@@ -11,8 +11,7 @@
   "license": "ISC",
   "description": "A Backend for Project 1",
   "devDependencies": {
-    "nodemon": "^3.1.7",
-    "prettier": "^3.3.3"
+    "nodemon": "^3.1.7"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

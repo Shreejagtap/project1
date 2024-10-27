@@ -1,7 +1,8 @@
 import { User } from "../models/user.model.js";
 import fs from "fs";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-const userExist = async (req, res, next) => {
+const userExist = asyncHandler(async (req, res, next) => {
   const username = req.body.username;
   const email = req.body.email;
   const avatarLocalPath = req.files?.avatar[0]?.path;
@@ -22,10 +23,9 @@ const userExist = async (req, res, next) => {
     fs.unlinkSync(coverImageLocalPath);
     res.status(409).json({
       message: "User Already Exists",
-      success: false,
     });
   }
   next();
-};
+});
 
 export { userExist };
