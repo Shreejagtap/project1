@@ -1,8 +1,7 @@
 import { User } from "../models/user.model.js";
 import fs from "fs";
-import { asyncHandler } from "../utils/asyncHandler.js";
 
-const userExist = asyncHandler(async (req, res, next) => {
+const userExist = async (req, res, next) => {
   const username = req.body.username;
   const email = req.body.email;
   const avatarLocalPath = req.files?.avatar[0]?.path;
@@ -26,6 +25,6 @@ const userExist = asyncHandler(async (req, res, next) => {
     });
   }
   next();
-});
+};
 
 export { userExist };
